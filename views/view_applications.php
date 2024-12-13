@@ -2,6 +2,9 @@
 session_start();
 require_once '../core/models.php';
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'hr') {
     header("Location: ../index.php");
     exit();
@@ -19,29 +22,26 @@ $applications = getApplicationsForJob($jobId);
 </head>
 <body>
     <h1>Applications for Job #<?= $jobId ?></h1>
-    <ul>
+
+    <?php if (empty($applications)): ?>
+        <p>No applications have been received for this job post yet.</p>
+    <?php else: ?>
         <?php foreach ($applications as $application): ?>
-            <li>
-                <p>Resume: <a href="../<?= $application['resume_path'] ?>" download>Download</a></p>
-                <p>Status: <?= $application['status'] ?></p>
+            <div>
+                <h3>Application #<?= $application['id'] ?> - <?= htmlspecialchars($application['applicant_name']) ?></h3>
+                <p><strong>Resume:</strong> <a href="../<?= $application['resume_path'] ?>" download>Download Resume</a></p>
+                <p><strong>Status:</strong> <?= htmlspecialchars($application['status']) ?></p>
+
                 <form action="../core/handleForms.php" method="POST">
                     <input type="hidden" name="application_id" value="<?= $application['id'] ?>">
-                    <textarea name="message" placeholder="Message"></textarea>
+                    <textarea name="message" placeholder="Leave a message for the applicant (optional)"></textarea><br><br>
                     <button type="submit" name="updateApplicationStatus" value="accepted">Accept</button>
                     <button type="submit" name="updateApplicationStatus" value="rejected">Reject</button>
                 </form>
-            </li>
+            </div>
         <?php endforeach; ?>
-    </ul>
-    <h2>Contact HR</h2>
-    <form action="../core/handleForms.php" method="POST">
-        <input type="hidden" name="sender_id" value="<?= $_SESSION['user_id'] ?>">
-        <label>HR ID:</label><br>
-        <input type="text" name="receiver_id" required><br>
-        <label>Message:</label><br>
-        <textarea name="message" required></textarea><br><br>
-        <button type="submit" name="sendMessage">Send</button>
-    </form>
+    <?php endif; ?>
+
     <a href="hr_dashboard.php">Back to Dashboard</a>
 </body>
 </html>

@@ -176,4 +176,18 @@ function getMessagesForHR($hrId) {
 }
 
 
+function getApplicationsForJob($jobId) {
+    global $pdo; // Assuming you are using PDO for database connection
+    
+    // Sample query (adjust as per your database structure)
+    $query = "SELECT * FROM applications WHERE job_id = :job_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':job_id', $jobId, PDO::PARAM_INT);
+    $stmt->execute();
+    
+    // Fetch all the applications for the job
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 ?>
