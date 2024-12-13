@@ -1,0 +1,240 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+
+h1, h2, strong{
+    text-align: center;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 600px; 
+    margin: 0 auto;   
+}
+
+form label {
+    font-size: 1rem;
+}
+
+form input, form select, form textarea {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 10px;
+}
+
+form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+form button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 500px;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+
+a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background-color: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+ul li strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+table th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #ddd;
+}
+
+.error {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.success {
+    color: green;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+.warning {
+    color: orange;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+input:invalid, textarea:invalid {
+    border-color: red;
+}
+
+input:valid, textarea:valid {
+    border-color: green;
+}
+
+section {
+    margin-bottom: 30px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #4CAF50;
+    color: white;
+}
+
+footer p {
+    margin: 0;
+}
+
+.applicant-dashboard .job-list li {
+    background-color: #e7f5e7;
+}
+
+.applicant-dashboard .job-list li a {
+    color: #4CAF50;
+}
+
+.applicant-dashboard .job-list li a:hover {
+    color: #45a049;
+}
+
+.hr-dashboard .job-list li {
+    background-color: #e8f1fe;
+}
+
+.hr-dashboard .job-list li a {
+    color: #2196F3;
+}
+
+.hr-dashboard .job-list li a:hover {
+    color: #1976D2;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    form {
+        gap: 15px;
+    }
+
+    form input, form select, form textarea {
+        font-size: 0.9rem;
+    }
+
+    ul li {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+}
