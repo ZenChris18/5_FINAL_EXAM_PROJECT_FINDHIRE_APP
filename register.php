@@ -8,6 +8,7 @@ require_once 'core/models.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
     <title>Register - FindHire</title>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
@@ -32,7 +33,9 @@ require_once 'core/models.php';
             <input type="text" name="username" required>
         </p>
         <p>
+            <br>
             <label for="password">Password</label>
+            </br>
             <input type="password" name="password" required>
         </p>
         <p>
@@ -46,6 +49,6 @@ require_once 'core/models.php';
             <input type="submit" name="registerUserBtn" value="Register">
         </p>
     </form>
-    <p>Already have an account? Login <a href="login.php">here</a></p>
+    <h2>Already have an account? Login <a href="login.php">here</a></h2>
 </body>
 </html>

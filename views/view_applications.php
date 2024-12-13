@@ -10,6 +10,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'hr') {
     exit();
 }
 
+if (!isset($_GET['job_id'])) {
+    echo "Job ID is missing.";
+    exit();
+}
+
 $jobId = $_GET['job_id'];
 $applications = getApplicationsForJob($jobId);
 ?>
@@ -18,6 +23,7 @@ $applications = getApplicationsForJob($jobId);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
     <title>Applications for Job #<?= $jobId ?></title>
 </head>
 <body>
@@ -28,12 +34,13 @@ $applications = getApplicationsForJob($jobId);
     <?php else: ?>
         <?php foreach ($applications as $application): ?>
             <div>
-                <h3>Application #<?= $application['id'] ?> - <?= htmlspecialchars($application['applicant_name']) ?></h3>
-                <p><strong>Resume:</strong> <a href="../<?= $application['resume_path'] ?>" download>Download Resume</a></p>
-                <p><strong>Status:</strong> <?= htmlspecialchars($application['status']) ?></p>
+                <h2>Application #<?= $application['id'] ?> - <?= htmlspecialchars($application['applicant_name'] ?? 'N/A') ?></h2>
+                <strong><p>Status: <?= htmlspecialchars($application['status'] ?? 'N/A') ?></p></strong>
+
 
                 <form action="../core/handleForms.php" method="POST">
                     <input type="hidden" name="application_id" value="<?= $application['id'] ?>">
+                    <input type="hidden" name="job_id" value="<?= $jobId ?>">
                     <textarea name="message" placeholder="Leave a message for the applicant (optional)"></textarea><br><br>
                     <button type="submit" name="updateApplicationStatus" value="accepted">Accept</button>
                     <button type="submit" name="updateApplicationStatus" value="rejected">Reject</button>

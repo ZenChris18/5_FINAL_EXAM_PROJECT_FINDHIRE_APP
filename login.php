@@ -7,6 +7,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
     <title>Login - FindHire</title>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
@@ -31,13 +32,15 @@ session_start();
             <input type="text" name="username" required>
         </p>
         <p>
+            <br>
             <label for="password">Password</label>
+            </br>
             <input type="password" name="password" required>
         </p>
         <p>
             <input type="submit" name="loginUserBtn" value="Login">
         </p>
     </form>
-    <p>Don't have an account? Register <a href="register.php">here</a></p>
+    <h2>Don't have an account? Register <a href="register.php">here</a></h2>
 </body>
 </html>

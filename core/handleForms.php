@@ -2,6 +2,9 @@
 session_start();
 require_once 'models.php';
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 // Handle registration
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['registerUserBtn'])) {
     $username = $_POST['username'];
@@ -12,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['registerUserBtn'])) {
         $_SESSION['message'] = "Registration successful!";
         $_SESSION['status'] = "200";
         header("Location: ../login.php");
-        exit(); // Make sure the script doesn't continue
+        exit(); 
     } else {
         $_SESSION['message'] = "Error: Could not register user.";
         $_SESSION['status'] = "500";
         header("Location: ../register.php");
-        exit(); // Make sure the script doesn't continue
+        exit(); 
     }
 }
 
@@ -41,12 +44,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['loginUserBtn'])) {
             $_SESSION['status'] = "200";
             header("Location: ../views/applicant_dashboard.php");
         }
-        exit(); // Make sure the script doesn't continue
+        exit(); 
     } else {
         $_SESSION['message'] = "Invalid username or password.";
         $_SESSION['status'] = "500";
         header("Location: ../login.php");
-        exit(); // Make sure the script doesn't continue
+        exit();
     }
 }
 
@@ -66,42 +69,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['createJobPost'])) {
 }
 
 // Handle job application
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['applyJob'])) {
+if (isset($_POST['applyJob'])) {
     $jobId = $_POST['job_id'];
     $applicantId = $_POST['applicant_id'];
-    $resumePath = "uploads/" . basename($_FILES['resume']['name']);
-    
-    if (move_uploaded_file($_FILES['resume']['tmp_name'], "../" . $resumePath)) {
-        if (applyForJob($jobId, $applicantId, $resumePath)) {
-            header("Location: ../views/hr_dashboard.php?msg=Application submitted successfully");
+    $experience = $_POST['experience'];
+    $college = $_POST['college'];
+
+    if (applyForJob($jobId, $applicantId, $experience, $college)) {
+        header("Location: ../views/applicant_dashboard.php"); 
+        exit();
+    } else {
+        echo "There was an issue applying for the job.";
+    }
+}
+
+
+
+
+if (isset($_POST['updateApplicationStatus'])) {
+    $applicationId = $_POST['application_id'];
+    $status = $_POST['updateApplicationStatus'];
+    $message = $_POST['message'] ?? '';
+
+    if ($status === 'accepted' || $status === 'rejected') {
+        $updateResult = updateApplicationStatus($applicationId, $status, $message);
+
+        if ($updateResult) {
+            header("Location: ../views/view_applications.php?job_id=" . $_POST['job_id']);
             exit();
         } else {
-            header("Location: ../views/hr_dashboard.php?error=Failed to apply for job");
-            exit();
+            echo "Error updating status.";
         }
-    } else {
-        header("Location: ../views/hr_dashboard.php?error=Failed to upload resume");
-        exit();
-    }
-}
-
-// Handle application status update (accept/reject)
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['updateApplicationStatus'])) {
-    $appId = $_POST['application_id'];
-    $status = $_POST['status'];
-    $message = $_POST['message'];
-
-    if (updateApplicationStatus($appId, $status, $message)) {
-        header("Location: ../manage_applications.php?msg=Application updated successfully");
-        exit();
-    } else {
-        header("Location: ../manage_applications.php?error=Failed to update application");
-        exit();
     }
 }
 
 
-// Handle fetching job posts for HR
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['getHRPosts'])) {
     $hrId = $_POST['hr_id'];
     $jobPosts = getJobPostsByHR($hrId);
@@ -109,15 +112,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['getHRPosts'])) {
 }
 
 if (isset($_POST['sendMessage'])) {
-    $senderId = $_SESSION['user_id'];  // The applicant's ID
-    $receiverId = $_POST['receiver_id'];  // HR's ID
-    $message = $_POST['message'];  // Message content
+    $senderId = $_SESSION['user_id'];  
+    $receiverId = $_POST['receiver_id'];  
+    $message = $_POST['message'];  
 
     $result = sendMessage($senderId, $receiverId, $message);
 
     if ($result) {
-        // Successfully sent the message
-        header("Location: ../views/applicant_dashboard.php"); // Redirect back to the dashboard
+        header("Location: ../views/applicant_dashboard.php");
         exit();
     } else {
         echo "Failed to send the message.";
@@ -125,15 +127,14 @@ if (isset($_POST['sendMessage'])) {
 }
 
 if (isset($_POST['sendMessage'])) {
-    $senderId = $_SESSION['user_id'];  // HR's ID
-    $receiverId = $_POST['receiver_id'];  // Applicant's ID
-    $message = $_POST['message'];  // Message content
+    $senderId = $_SESSION['user_id'];  
+    $receiverId = $_POST['receiver_id'];  
+    $message = $_POST['message'];  
 
     $result = sendMessage($senderId, $receiverId, $message);
 
     if ($result) {
-        // Successfully sent the message
-        header("Location: ../views/hr_dashboard.php"); // Redirect back to the HR dashboard
+        header("Location: ../views/hr_dashboard.php");
         exit();
     } else {
         echo "Failed to send the message.";

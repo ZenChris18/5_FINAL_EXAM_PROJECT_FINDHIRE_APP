@@ -2,7 +2,7 @@
 session_start();
 require_once '../core/models.php';
 
-// error checking
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -13,11 +13,11 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'hr') {
 
 $jobPosts = getJobPostsByHR($_SESSION['user_id']);
 
-// Handle job deletion
+
 if (isset($_GET['delete_job'])) {
     $jobId = $_GET['delete_job'];
     deleteJobPost($jobId);
-    header("Location: hr_dashboard.php"); // Redirect after deletion
+    header("Location: hr_dashboard.php"); 
     exit();
 }
 
@@ -28,6 +28,7 @@ $messages = getMessages($_SESSION['user_id']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/styles.css">
     <title>HR Dashboard</title>
 </head>
 <body>
@@ -39,9 +40,11 @@ $messages = getMessages($_SESSION['user_id']);
         <?php foreach ($jobPosts as $post): ?>
             <li>
                 <strong><?= htmlspecialchars($post['title']) ?></strong><br>
-                <?= htmlspecialchars($post['description']) ?><br>
+                <strong><?= htmlspecialchars($post['description']) ?></strong><br>
+                <strong>
                 <a href="view_applications.php?job_id=<?= $post['id'] ?>">View Applications</a> | 
                 <a href="hr_dashboard.php?delete_job=<?= $post['id'] ?>" onclick="return confirm('Are you sure you want to delete this job post?')">Delete Job</a>
+                </strong>
             </li>
         <?php endforeach; ?>
     </ul>
