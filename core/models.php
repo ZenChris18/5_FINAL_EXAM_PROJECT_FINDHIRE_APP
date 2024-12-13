@@ -121,23 +121,13 @@ function sendMessage($senderId, $receiverId, $message) {
 }
 
 
-function getMessages($userId, $receiverId) {
+function getMessages($userId) {
     $conn = getDbConnection();
-    $query = $conn->prepare("SELECT messages.*, 
-                                    sender.username AS sender_username, 
-                                    receiver.username AS receiver_username
-                             FROM messages 
-                             LEFT JOIN users AS sender ON messages.sender_id = sender.id
-                             LEFT JOIN users AS receiver ON messages.receiver_id = receiver.id
-                             WHERE (sender_id = :userId AND receiver_id = :receiverId) 
-                                OR (sender_id = :receiverId AND receiver_id = :userId)");
+    $query = $conn->prepare("SELECT * FROM messages WHERE receiver_id = :userId OR sender_id = :userId");
     $query->bindParam(':userId', $userId, PDO::PARAM_INT);
-    $query->bindParam(':receiverId', $receiverId, PDO::PARAM_INT);
     $query->execute();
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
-
-
 
 // Fetch job posts specific to HR
 function getJobPostsByHR($hrId) {

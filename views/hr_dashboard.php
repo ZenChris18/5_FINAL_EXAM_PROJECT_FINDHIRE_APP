@@ -2,6 +2,10 @@
 session_start();
 require_once '../core/models.php';
 
+// error checking
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'hr') {
     header("Location: ../index.php");
     exit();
@@ -58,7 +62,7 @@ $messages = getMessages($_SESSION['user_id']);
     <?php if (!empty($messages)): ?>
         <?php foreach ($messages as $msg): ?>
             <div>
-                <p><strong>From:</strong> <?= htmlspecialchars($msg['sender_username']) ?></p>
+                <p><strong>From:</strong> <?= htmlspecialchars($msg['sender_id']) ?></p>
                 <p><strong>Message:</strong> <?= htmlspecialchars($msg['message']) ?></p>
                 <form action="../core/handleForms.php" method="POST">
                     <input type="hidden" name="sender_id" value="<?= $_SESSION['user_id'] ?>">
